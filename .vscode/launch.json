@@ -1,0 +1,53 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug pair_selection.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/pair_selection.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug gather_data.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/gather_data.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug pair_data.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/pair_data.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug strategy.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/strategy.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug perfomance_metrics.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/performance_metrics.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug plot_portfolio.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/plot_portfolio.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
