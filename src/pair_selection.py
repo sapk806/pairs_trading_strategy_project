@@ -13,10 +13,10 @@ def pair_selection(universe, close_prices):
     import pandas as pd
     from statsmodels.tsa.stattools import coint
 
-    combs = list(combinations(universe, 2))
+    combinations_list = list(combinations(universe, 2))
     
     correlated_pairs = {}
-    for combination in combs:
+    for combination in combinations_list:
         assetA = combination[0]
         assetB = combination[1]
 
@@ -38,8 +38,10 @@ def pair_selection(universe, close_prices):
         pvalue = coint(assetA_close_price, assetB_close_price)[1]
         if pvalue <= 0.05:
             cointegrated_pairs.append((assetA, assetB))
+    
     cointegrated_pairs_df = pd.DataFrame(cointegrated_pairs, columns = ['Asset A', 'Asset B'])
     cointegrated_pairs_df.to_csv('results/cointegrated_pairs.csv')
+    
     return cointegrated_pairs
     
 

@@ -25,8 +25,8 @@ def performance_metrics(portfolio_values):
     import pandas as pd
     import numpy as np
 
-    initial_value = portfolio_values.iloc[0]
-    final_value = portfolio_values.iloc[-1]
+    initial_portfolio_value = portfolio_values.iloc[0]
+    final_portfolio_value = portfolio_values.iloc[-1]
 
     risk_free_rate = 0 
     daily_returns = portfolio_values.pct_change().dropna()
@@ -54,11 +54,11 @@ def performance_metrics(portfolio_values):
     std_negative_daily_returns = negative_daily_returns.std(ddof = 1) * np.sqrt(252)
 
     n_years = 2
-    CAGR = (final_value / initial_value)**(1 / n_years) - 1
+    CAGR = (final_portfolio_value / initial_portfolio_value)**(1 / n_years) - 1
     
     sortino_ratio = (avg_daily_returns - risk_free_rate) / std_negative_daily_returns
     sharpe_ratio = (avg_daily_returns - risk_free_rate) / std_daily_returns
-    cumulative_return = (final_value - initial_value) / initial_value
+    cumulative_return = (final_portfolio_value - initial_portfolio_value) / initial_portfolio_value
     max_drawdown = min(drawdowns.values())
     volatility = std_daily_returns
 

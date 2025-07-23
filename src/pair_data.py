@@ -21,11 +21,11 @@ def pair_data(cointegrated_pairs, close_prices):
         assetA = combination[0]
         assetB = combination[1]
 
-        assetA_close_price = close_prices[assetA]
-        assetB_close_price = close_prices[assetB]
-        assetB_with_constant = add_constant(assetB_close_price)
+        assetA_close_prices = close_prices[assetA]
+        assetB_close_prices = close_prices[assetB]
+        assetB_close_prices_with_constant = add_constant(assetB_close_prices)
 
-        model = OLS(assetA_close_price, assetB_with_constant)
+        model = OLS(assetA_close_prices, assetB_close_prices_with_constant)
         result = model.fit()
         hedge_ratio = result.params.iloc[1]
         spread = result.resid

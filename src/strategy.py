@@ -30,11 +30,11 @@ def strategy(cointegrated_pairs, zscores, hedge_ratios, close_prices):
 
         # Calculate initial cost of the spread.
         unit_cost = assetA_close_prices.iloc[0] + hedge_ratio * assetB_close_prices.iloc[0]
-        units = pair_capital_split/unit_cost
+        unitsA = pair_capital_split/unit_cost
 
         # sharesA and sharesB represent position sizes
-        sharesA = units
-        sharesB = hedge_ratio * units
+        sharesA = unitsA
+        sharesB = hedge_ratio * unitsA
 
         pair_portfolio_value[close_prices.index[0]] = sharesA * assetA_close_prices.iloc[0] + sharesB * assetB_close_prices.iloc[0]
 
@@ -51,51 +51,51 @@ def strategy(cointegrated_pairs, zscores, hedge_ratios, close_prices):
             
             # Enter short position if z-score > 2 and not currently in a trade.
             if zscore > 2 and not short_spread and not long_spread:
-                sharesA -= units
-                sharesB += hedge_ratio * units
+                sharesA -= unitsA
+                sharesB += hedge_ratio * unitsA
                 short_spread = True
                 days_in_trade = 0
             
             # Exit short position if abs(z-score) < 0.05 and short position has lasted at least 3 days.
             elif abs(zscore) < 0.05 and short_spread and days_in_trade >= 3:
-                sharesA += units
-                sharesB -= hedge_ratio * units
+                sharesA += unitsA
+                sharesB -= hedge_ratio * unitsA
                 short_spread = False
                 days_in_trade = 0
 
             # Enter long position if z-score < -2 and not currently in a trade.
             elif zscore < -2 and not long_spread and not short_spread:
-                sharesA += units
-                sharesB -= hedge_ratio * units
+                sharesA += unitsA
+                sharesB -= hedge_ratio * unitsA
                 long_spread = True
                 days_in_trade = 0
             
             # Exit long position if abs(z-score) < 0.05 and long position lasted at least 3 days.
             elif abs(zscore) < 0.05 and long_spread and days_in_trade >=3:
-                sharesA -= units
-                sharesB += hedge_ratio * units
+                sharesA -= unitsA
+                sharesB += hedge_ratio * unitsA
                 long_spread = False
                 days_in_trade = 0
             
             # Exit long position and enter the short position if z-score > 2 and long position has lasted at least 3 days.
             elif zscore > 2 and long_spread and days_in_trade >= 3:
-                sharesA -= units
-                sharesB += hedge_ratio * units
+                sharesA -= unitsA
+                sharesB += hedge_ratio * unitsA
                 long_spread = False
 
-                sharesA -= units
-                sharesB += hedge_ratio * units
+                sharesA -= unitsA
+                sharesB += hedge_ratio * unitsA
                 short_spread = True
                 days_in_trade = 0
             
             # Exit short position and enter the long position if z-score < -2 and long position has lasted at least 3 days.
             elif zscore < -2 and short_spread and days_in_trade >= 3:
-                sharesA += units
-                sharesB -= hedge_ratio * units
+                sharesA += unitsA
+                sharesB -= hedge_ratio * unitsA
                 short_spread = False
 
-                sharesA += units
-                sharesB -= hedge_ratio * units 
+                sharesA += unitsA
+                sharesB -= hedge_ratio * unitsA
                 long_spread = True
                 days_in_trade = 0
                   
