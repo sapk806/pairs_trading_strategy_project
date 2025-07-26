@@ -1,16 +1,19 @@
-def plot_portfolio(portfolio_values, highest_values):
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def plot_portfolio(portfolio_values: pd.Series, highest_values: pd.Series):
     """
-    Creates a plot of the value of the portfolio vs. date, with the max drawdown shaded between the current price and the maximum when current price is lower than the maximum.
+    Plots portfolio value over time, shading drawdowns in red when the portfolio value is less than the running maximum.
+    Saves the plot to 'plots/portfolio_plot.png'
+    
+    Args:
+        portfolio_values (pd.Series): Series containing the value of the portfolio, indexed by date.
+        highest_values (pd.Series): Series containing the highest value at each index, which is by date.
 
-    Paramters:
-        portfolio_value (pd.Series): A series containing the value of the portfolio, indexed by date.
-        highest_values (pd.Series): pd.Series: A series containing the highest value at each index, which is by date.
-
-    Return:
+    Returns:
         None
     """
 
-    import matplotlib.pyplot as plt
 
     plt.figure(figsize = (12, 6))
     plt.plot(portfolio_values.index, portfolio_values, label = 'Portfolio Values')

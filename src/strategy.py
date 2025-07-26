@@ -1,18 +1,18 @@
+import pandas as pd
 
-def strategy(cointegrated_pairs, zscores, hedge_ratios, close_prices):
+def strategy(cointegrated_pairs: list[tuple[str, str]], zscores: pd.DataFrame, hedge_ratios: dict[tuple[str, str], float], close_prices: pd.DataFrame):
     """
-    Executes the pairs trading strategy using z-scores as entry and exit signals and the price spread to determine share quantities for long and short positions.
+    Simulates a pairs trading strategy using z-score thresholds to generate long/short signals and compute daily portfolio value.
     
-    Parameters:
-        cointegrated_pairs (list of tuples): A list of tuples containing the cointegrated combinations.
-        zscores (pd.DataFrame): A DataFrame containing each cointegrated combination and a series of their corresponding z-scores gatheres, indexed by date with combinations as columns.
-        hedge_ratios (dict): A dictionary containing each combination as the key and their corresponding hedge ratio, which was found using OLS.
+    Args:
+        cointegrated_pairs (list[tuple[str, str]]): A list of tuples containing the cointegrated combinations that pass the correlation and p-value threshold. 
+        zscores (pd.DataFrame): A DataFrame where each column corresponds to a cointegrated pair, and contains the z-score time series of their spread.
+        hedge_ratios (dict[tuple[str, str], float]): A dictionary where each key corresponds to the cointegrated pair and the value corresponds to their corresponding hedge ratio. Calculated from OLS regression.
         close_prices (pd.DataFrame): Historical adjusted close price data, indexed by dates with assets as columns.
     
     Returns:
         pd.Series: A series of the value of the portfolio, indexed by date.
     """
-    import pandas as pd
 
     capital = 10000
     pair_capital_split = capital/len(cointegrated_pairs)

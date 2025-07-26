@@ -1,19 +1,24 @@
-def gather_data(universe, start_date, end_date):
-    """
-    Gathers historical adjusted close prices for a list of tickers using Yahoo Finance.
+import pandas as pd 
+import yfinance as yf
 
-    Parameters:
-        universe (list of str): List of ticker symbols to download.
+def gather_data(universe: list[str], start_date: str, end_date: str) -> pd.DataFrame:
+    """
+    Downloads historical adjusted closing prices (adjusted for splits and dividends)
+    for a list of tickers using Yahoo Finance. 
+    
+    Saves the DataFrame to 'results/close_prices.csv'.
+
+    Args:
+        universe (list[str]): List of ticker symbols from Yahoo Finance.
         start_date (str): Start date in "YYYY-MM-DD" format.
         end_date (str): End date in "YYYY-MM-DD" format.
 
     Returns:
-        pd.DataFrame: Historical adjusted close price data, indexed by dates with assets as columns.
+        pd.DataFrame: A DataFrame indexed by date with one column per ticker. All rows with missing data are removed.
     """
-    import yfinance as yf
-    import pandas as pd
 
     close_prices = yf.download(universe, start = start_date, end = end_date, auto_adjust = True)['Close']
+    # Remove rows with missing data to ensure time series alignment across all tickers
     close_prices = close_prices.dropna()
     close_prices.to_csv('results/close_prices.csv')
     return close_prices

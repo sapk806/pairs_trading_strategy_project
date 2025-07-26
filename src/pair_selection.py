@@ -1,17 +1,20 @@
-def pair_selection(universe, close_prices):
-    """
-    Finds the Pearson correlation coefficient for each pair and uses the result to filter pairs for cointegration tests.
+from itertools import combinations
+import pandas as pd
+from statsmodels.tsa.stattools import coint
 
-    Parameters:
-        universe (list of str): A list of ticker symbols. 
-        close_prices (pd.DataFrame): A DataFrame containing each asset from the universe and their close prices, indexed by date
+def pair_selection(universe: list[str], close_prices: pd.DataFrame) -> list[tuple]:
+    """
+    Calculates the Pearson correlation coefficient for each unique pair, and filters out any combination with a correlation < 0.89.
+    Applies the Engle-Granger cointegration test on any remaining pairs, labeling any combination with a p-value ≤ 0.05 as cointegrated.
+    The cointegrated pairs are saved to 'results/cointegrated_pairs.csv'
+    
+    Args:
+        universe (list[str]): List of ticker symbols from Yahoo Finance.
+        close_prices (pd.DataFrame): Historical adjusted close price data, indexed by date (business days) with tickers as columns.
 
     Returns:
-        list of tuples: A list of tuples containing the cointegrated combinations.
+        list[tuple[str, str]]: List of tuples containing the cointegrated combinations that pass the correlation and p-value threshold. 
     """
-    from itertools import combinations
-    import pandas as pd
-    from statsmodels.tsa.stattools import coint
 
     combinations_list = list(combinations(universe, 2))
     

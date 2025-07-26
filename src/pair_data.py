@@ -1,20 +1,21 @@
-def pair_data(cointegrated_pairs, close_prices):
-    """
-    Runs OLS on each cointegrated combination to find the hedge ratios and the spread z-scores.
+import yfinance as yf
+import pandas as pd
+from statsmodels.tsa.stattools import OLS
+from statsmodels.tsa.stattools import add_constant
 
-    Parameters:
-        cointegrated_pairs (list of tuples): A list of tuples containing the cointegrated combinations.
-        close_prices (pd.DataFrame): Historical adjusted close price data, indexed by dates with assets as columns.
+def pair_data(cointegrated_pairs: list[tuple[str, str]], close_prices: pd.DataFrame):
+    """
+    Performs OLS regression on each cointegrated asset pair to estimate hedge ratios and spread z-scores.
+
+    Args:
+        cointegrated_pairs (list[tuple[str, str]]): List of tuples containing the cointegrated combinations that pass the correlation and p-value threshold. 
+        close_prices (pd.DataFrame): Historical adjusted close price data, indexed by date (business days) with tickers as columns.
 
     Returns:
-        pd.DataFrame: A DataFrame containing each cointegrated combination and a series of their corresponding z-scores gatheres, indexed by date with combinations as columns.
-        dict: A dictionary containing each combination as the key and their corresponding hedge ratio, which was found using OLS.
+        pd.DataFrame: DataFrame where each column corresponds to a cointegrated pair, and contains the z-score time series of their spread.
+        dict[tuple[str, str], float]: Dictionary where each key corresponds to the cointegrated pair and the value corresponds to their corresponding hedge ratio.
     """
-    import yfinance as yf
-    import pandas as pd
-    from statsmodels.tsa.stattools import OLS
-    from statsmodels.tsa.stattools import add_constant
-
+    
     zscore_dict = {}
     hedge_ratio_dict = {}
     for combination in cointegrated_pairs:

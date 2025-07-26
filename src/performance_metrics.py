@@ -1,6 +1,9 @@
-def performance_metrics(portfolio_values):
+import pandas as pd
+import numpy as np
+
+def performance_metrics(portfolio_values: pd.Series):
     """
-    Calculates key performance metrics used to evaluate the strategy's effectiveness and risk-adjusted returns of the strategy.
+    Calculates key performance metrics to evaluate the strategy's effectiveness and risk-adjusted returns.
 
     Metrics Include:
         Cumulative Return
@@ -10,20 +13,18 @@ def performance_metrics(portfolio_values):
         Sortino Ratio
         Highest Values
 
-    Parameters:
-        portfolio_values(pd.Series): A series containing the values of the portfolio, indexed by date.
+    Args:
+        portfolio_values(pd.Series): Series containing the values of the portfolio, indexed by date.
     
     Returns:
-        float: The cumulative return of the portfolio.
-        float: The volatility of the portfolio.
-        float: The Sharpe Ratio of the portoflio.
-        float: The max drawdown of the portfolio.
-        float: The sortino ratio of the portfolio.
-        pd.Series: A series containing the highest value at each index, which is by date.
-        float: The CAGR of the portfolio.
+        float: Cumulative return of the portfolio.
+        float: Volatility of the portfolio.
+        float: Sharpe Ratio of the portoflio.
+        float: Max drawdown of the portfolio.
+        float: Sortino ratio of the portfolio.
+        pd.Series: Series containing the highest value at each index, which is by date.
+        float: CAGR of the portfolio.
     """
-    import pandas as pd
-    import numpy as np
 
     initial_portfolio_value = portfolio_values.iloc[0]
     final_portfolio_value = portfolio_values.iloc[-1]
